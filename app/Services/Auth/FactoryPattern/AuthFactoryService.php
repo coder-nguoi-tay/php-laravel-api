@@ -10,7 +10,7 @@ use InvalidArgumentException;
 
 class AuthFactoryService
 {
-    static public function AuthLoginFactory($provider)
+    static public function AuthLoginFactory($provider): BasesicLogin|FaceBookLoginService|GithubLoginService|GoogleLoginService
     {
         return match (strtolower($provider)) {
             'basesic' => new BasesicLogin(),

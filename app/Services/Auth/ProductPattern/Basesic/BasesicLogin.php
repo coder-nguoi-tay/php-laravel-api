@@ -2,9 +2,7 @@
 
 namespace App\Services\Auth\ProductPattern\Basesic;
 
-use App\Enums\ApiStatus;
 use App\Enums\StatusCode;
-use App\Repositories\UserRepository\UserInterface;
 use App\Services\Auth\ProductPattern\Interfaces\AuthInterface;
 use Illuminate\Support\Facades\Auth;
 
