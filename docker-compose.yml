@@ -22,12 +22,12 @@ services:
     depends_on:
       - mysql
     environment:
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: task_db
-      DB_USERNAME: root
-      DB_PASSWORD: secret
+      DB_CONNECTION=pgsql
+      DB_HOST=dpg-d2dccfruibrs739gg7cg-a
+      DB_PORT=5432
+      DB_DATABASE=api_4qbn
+      DB_USERNAME=root
+      DB_PASSWORD=QxdQ0DPSxMRghYyli5bJIpmCHySlJjXo
     volumes:
       - .:/var/www/html
 volumes:
