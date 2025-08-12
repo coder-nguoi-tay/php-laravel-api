@@ -1,4 +1,4 @@
-# Dockerfile cho Laravel (PHP 8.2, Composer, SQLite)
+# Base PHP 8.2 + Apache
 FROM php:8.2-apache
 
 # Cài đặt các extension cần thiết
@@ -12,31 +12,34 @@ RUN apt-get update && \
         libonig-dev \
         libxml2-dev \
         zlib1g-dev \
+        libpq-dev \
         build-essential \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install pdo pdo_mysql pdo_sqlite zip \
+    && docker-php-ext-install pdo pdo_mysql pdo_sqlite pdo_pgsql zip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Cài Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copy source code
+# Copy source code Laravel
 COPY . /var/www/html
-
 WORKDIR /var/www/html
+
+# Cài dependencies Laravel (bỏ --no-dev nếu cần dev dependencies)
+RUN composer install --no-dev --optimize-autoloader
 
 # Phân quyền cho storage và bootstrap/cache
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Enable mod_rewrite
+# Enable mod_rewrite cho Laravel
 RUN a2enmod rewrite
 
 # Copy file cấu hình Apache
 COPY ./docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
-# Expose port
+# Expose port 80
 EXPOSE 80
 
-# Chạy migrate và serve (sửa cảnh báo CMD)
+# Command mặc định
 CMD ["apache2-foreground"]
