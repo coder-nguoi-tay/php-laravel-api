@@ -8,7 +8,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('/auth')->group(function () {
         Route::post('/user/register', [AuthController::class, 'register']);
         Route::post('/user/login', [AuthController::class, 'login']);
-        Route::post('/user/logout', [AuthController::class, 'logout']);
+        Route::middleware('auth:api')->post('/user/logout', [AuthController::class, 'logout']);
     });
 
     // works
