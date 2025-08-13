@@ -24,10 +24,13 @@ class BasesicLogin implements AuthInterface
 
         $user = Auth::user();
 
+        $tokenResult = $user->createToken('auth_token');
+
         return [
-            'status' => StatusCode::SUCCESS->value,
-            'user' => $user,
-            'token' => $user->createToken('auth_token')->accessToken
+            'status'     => StatusCode::SUCCESS->value,
+            'user'       => $user,
+            'token'      => $tokenResult->accessToken,
+            'expires_at' => $tokenResult->token->expires_at->toDateTimeString(),
         ];
     }
 }
