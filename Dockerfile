@@ -26,8 +26,12 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-# Cài dependencies Laravel (bỏ --no-dev nếu cần dev dependencies)
-RUN composer install --no-dev --optimize-autoloader
+# Xóa cache provider đã build từ môi trường local (tránh lỗi thiếu dev provider như Pail)
+RUN rm -f bootstrap/cache/packages.php bootstrap/cache/services.php || true
+
+# Cài dependencies Laravel cho production, bỏ qua scripts để không chạy Artisan trong lúc build
+# (tránh lỗi "Laravel\\Pail\\PailServiceProvider not found" do dev không được cài)
+RUN composer install --no-dev --no-scripts --optimize-autoloader
 
 # Phân quyền cho storage và bootstrap/cache
 RUN chown -R www-data:www-data storage bootstrap/cache

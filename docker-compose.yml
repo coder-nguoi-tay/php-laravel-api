@@ -21,14 +21,10 @@ services:
       - "8080:80"
     depends_on:
       - mysql
-    environment:
-      DB_CONNECTION=pgsql
-      DB_HOST=dpg-d2dccfruibrs739gg7cg-a
-      DB_PORT=5432
-      DB_DATABASE=api_4qbn
-      DB_USERNAME=root
-      DB_PASSWORD=QxdQ0DPSxMRghYyli5bJIpmCHySlJjXo
+    env_file:
+      - .env.docker
     volumes:
       - .:/var/www/html
+      - ./.env.docker:/var/www/html/.env:ro
 volumes:
   db_data:

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Enums\ApiStatus;
 use App\Http\Controllers\Controller;
@@ -26,6 +26,8 @@ class WorkControler extends Controller
     {
         $param = $request->validated();
 
-        $data = $this->taskService->createTask($param); 
+        $data = $this->taskService->createTask($param);
+
+        return response()->json($data, ApiStatus::OK->value);
     }
 }
